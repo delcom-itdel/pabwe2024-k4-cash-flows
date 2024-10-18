@@ -1,9 +1,8 @@
-# Kelompok 4 - Cash Flows
+# React + Vite
 
-| NIM      | Nama             |
-|----------|------------------|
-| 11S22027 | Kevin Harianja   |
-| 11S22037 | Samuel Sibarani  |
-| 11S22018 | Deak Napitupulu  |
-| 11S22005 | Olga Frischila G |
-| 11S22043 | Esra Silaen      |
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
