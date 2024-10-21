@@ -8,7 +8,7 @@
 
 
 
-
+## Getting Started
 1. Clone repository ke laptop masing masing
 2. Melakukan update sesuai  kebutuhan program dan juga melakukan **npm install**
 3. Setelah melakukan perubahan, selanjutnya melakukan push ke repository
