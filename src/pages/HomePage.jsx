@@ -1,53 +1,53 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import CashFlowList from "../components/CashFlowsList";
+import CashFlowList from "../components/CashFlowList";
 import {
 	asyncGetCashFlows,
 	asyncDeleteCashFlow,
 	deleteCashFlowActionCreator,
-} from "../states/cash-flows/action";
+} from "../states/cashFlow/action";
 
 function HomePage() {
-	const { cashflows = [], isDeleteCashFlow = false } = useSelector(
-		(states) => states
+	const { cashFlows = [], isDeleteCashFlow = false } = useSelector(
+		(state) => state
 	);
+	const queryParams = new URLSearchParams(location.search);
+	const is_finished = queryParams.get("is_finished") || "";
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (isDeleteCashFlow) {
-			Swal.fire({
-				position: "top-end",
-				icon: "success",
-				title: "Cash flow berhasil dihapus!",
-				showConfirmButton: false,
-				timer: 700,
-			});
 			dispatch(deleteCashFlowActionCreator(false));
 		}
-
-		dispatch(asyncGetCashFlows()).catch((error) => {
-			console.error("Gagal mengambil data cashflows:", error);
+		dispatch(asyncGetCashFlows(is_finished)).catch((error) => {
+			console.error("Failed to fetch cash flows:", error);
 		});
 	}, [dispatch, isDeleteCashFlow]);
 
 	const onDeleteCashFlow = (id) => {
-			dispatch(asyncDeleteCashFlow(id))
-					.catch((error) => {
-							console.error("Gagal menghapus cashflow:", error);
-					});
+		dispatch(asyncDeleteCashFlow(id)).catch((error) => {
+			console.error("Failed to delete cash flow:", error);
+		});
 	};
-	if (!cashflows.length) {
-			return <p>Cashflow tidak tersedia atau gagal memuat data.</p>;
+
+	if (!cashFlows.length) {
+		return (
+			<center>
+				<h6>No cash flow data available or failed to load.</h6>
+			</center>
+		);
 	}
+
 	return (
-			<section>
-					<div className="container pt-1">
-							<CashFlowList
-									cashflows={cashflows}
-									onDeleteCashFlow={onDeleteCashFlow}
-							></CashFlowList>
-					</div>
-			</section>
+		<section>
+			<div className="container pt-1">
+				<CashFlowList
+					cashFlows={cashFlows}
+					onDeleteCashFlow={onDeleteCashFlow}
+				/>
+			</div>
+		</section>
 	);
 }
+
 export default HomePage;
