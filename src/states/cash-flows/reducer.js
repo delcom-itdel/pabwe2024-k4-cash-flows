@@ -45,10 +45,33 @@ function detailCashFlowReducer(cashFlow = null, action = {}) {
   }
 }
 
+function labelsReducer(labels = [], action = {}) {
+  switch (action.type) {
+    case ActionType.GET_LABELS:
+      return action.payload.labels || [];
+    default:
+      return labels;
+  }
+}
+
+function statsDailyReducer(
+  statsDaily = { stats_inflow: {}, stats_outflow: {} },
+  action = {}
+) {
+  switch (action.type) {
+    case ActionType.GET_STATS_DAILY:
+      return action.payload.stats;
+    default:
+      return statsDaily;
+  }
+}
+
 export {
   cashFlowsReducer,
   isAddCashFlowReducer,
   isDeleteCashFlowReducer,
   isUpdateCashFlowReducer,
   detailCashFlowReducer,
+  labelsReducer,
+  statsDailyReducer,
 };

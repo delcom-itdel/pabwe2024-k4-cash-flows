@@ -1,18 +1,18 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { FaPlus, FaUser, FaRightFromBracket } from "react-icons/fa6";
+
 function Navigation({ authLogin, onAuthSignOut }) {
   const { id, name, photo } = authLogin;
+
   return (
     <div>
-      <nav
-        className="navbar navbar-expand-lg navbar-dark 
-bg-primary"
-      >
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             Cash Flow K4
           </Link>
+
           <button
             className="navbar-toggler"
             type="button"
@@ -24,12 +24,28 @@ bg-primary"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
+
           <div className="collapse navbar-collapse" id="navApp">
-            <ul className="navbar-nav ms-auto ">
+            <ul className="navbar-nav ms-auto">
               <li className="mt-2">
                 <Link
-                  className="btn btn-light 
-btn-sm text-dark"
+                  className="btn btn-light btn-sm text-dark"
+                  to="/cash-flows/stats/daily"
+                >
+                  Cash Flow Stats Daily
+                </Link>
+              </li>
+              <li className="mt-2 ms-2">
+                <Link
+                  className="btn btn-light btn-sm text-dark"
+                  to="/cash-flows/labels"
+                >
+                  Cash Flow Labels
+                </Link>
+              </li>
+              <li className="mt-2 ms-2">
+                <Link
+                  className="btn btn-light btn-sm text-dark"
                   to="/cash-flows/add"
                 >
                   <FaPlus /> Create Cash Flow
@@ -37,8 +53,7 @@ btn-sm text-dark"
               </li>
               <li className="nav-item dropdown">
                 <a
-                  className="nav-link mx-2 
-dropdown-toggle"
+                  className="nav-link mx-2 dropdown-toggle"
                   href="#"
                   id="navUser"
                   role="button"
@@ -47,14 +62,18 @@ dropdown-toggle"
                 >
                   <img
                     className="nav-profile"
-                    src={photo}
+                    src={photo || "/default-profile.png"}
                     alt={id}
                     title={name}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                    }}
                   />
                 </a>
                 <ul
-                  className="dropdown-menu 
-dropdown-menu-end"
+                  className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="navUser"
                 >
                   <li>
@@ -81,14 +100,17 @@ dropdown-menu-end"
     </div>
   );
 }
+
 const authLoginShape = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  photo: PropTypes.string.isRequired,
+  photo: PropTypes.string,
 };
+
 Navigation.propTypes = {
   authLogin: PropTypes.shape(authLoginShape).isRequired,
   onAuthSignOut: PropTypes.func.isRequired,
 };
+
 export default Navigation;

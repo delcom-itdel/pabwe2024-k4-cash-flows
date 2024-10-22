@@ -8,6 +8,8 @@ const ActionType = {
   UPDATE_CASHFLOW: "UPDATE_CASHFLOW",
   DELETE_CASHFLOW: "DELETE_CASHFLOW",
   DETAIL_CASHFLOW: "DETAIL_CASHFLOW",
+  GET_LABELS: "GET_LABELS",
+  GET_STATS_DAILY: "GET_STATS_DAILY",
 };
 
 function getCashFlowsActionCreator(cashFlows) {
@@ -42,6 +44,20 @@ function detailCashFlowActionCreator(cashFlow) {
   return {
     type: ActionType.DETAIL_CASHFLOW,
     payload: { cashFlow },
+  };
+}
+
+function getLabelsActionCreator(labels) {
+  return {
+    type: ActionType.GET_LABELS,
+    payload: { labels },
+  };
+}
+
+function getStatsDailyActionCreator(statsDaily) {
+  return {
+    type: ActionType.GET_STATS_DAILY,
+    payload: { statsDaily },
   };
 }
 
@@ -85,11 +101,25 @@ function asyncDeleteCashFlow(id) {
   };
 }
 
-function asyncUpdateCashFlow({ id, type, source, label, description, nominal }) {
+function asyncUpdateCashFlow({
+  id,
+  type,
+  source,
+  label,
+  description,
+  nominal,
+}) {
   return async (dispatch) => {
     dispatch(showLoading());
     try {
-      await api.putUpdateCashFlow({ id, type, source, label, description, nominal });
+      await api.putUpdateCashFlow({
+        id,
+        type,
+        source,
+        label,
+        description,
+        nominal,
+      });
       dispatch(updateCashFlowActionCreator(true));
     } catch (error) {
       showErrorDialog(error.message);
@@ -111,6 +141,38 @@ function asyncDetailCashFlow(id) {
   };
 }
 
+function asyncGetLabels() {
+  return async (dispatch) => {
+    dispatch(showLoading());
+
+    try {
+      const response = await api.getLabels(); // Assuming `api.getLabels` makes a GET request to the `/cash-flows/labels` endpoint.
+      console.log("Labels fetched from API:", response.data.labels); // Log the data
+      dispatch(getLabelsActionCreator(response.data.labels)); // Dispatch the labels to the reducer
+    } catch (error) {
+      console.error("Error fetching labels:", error);
+    }
+
+    dispatch(hideLoading());
+  };
+}
+
+function asyncGetStatsDaily() {
+  return async (dispatch) => {
+    dispatch(showLoading());
+
+    try {
+      const statsDaily = await api.getStatsDaily(); // Asumsi `api.getStatsDaily` mengambil data statistik harian dari API
+      console.log("Stats Daily fetched from API:", statsDaily); // Log data statistik harian
+      dispatch(getStatsDailyActionCreator(statsDaily)); // Dispatch data statistik harian ke reducer
+    } catch (error) {
+      console.error("Error fetching daily stats:", error);
+    }
+
+    dispatch(hideLoading());
+  };
+}
+
 export {
   ActionType,
   getCashFlowsActionCreator,
@@ -123,4 +185,8 @@ export {
   asyncUpdateCashFlow,
   detailCashFlowActionCreator,
   asyncDetailCashFlow,
+  getLabelsActionCreator,
+  asyncGetLabels,
+  getStatsDailyActionCreator,
+  asyncGetStatsDaily,
 };

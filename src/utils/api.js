@@ -80,7 +80,13 @@ const api = (() => {
     return responseJson.message;
   }
 
-  async function postAddCashFlow({ type, source, label, description, nominal }) {
+  async function postAddCashFlow({
+    type,
+    source,
+    label,
+    description,
+    nominal,
+  }) {
     const response = await _fetchWithAuth(`${BASE_URL}/cash-flows`, {
       method: "POST",
       headers: {
@@ -97,7 +103,14 @@ const api = (() => {
     return responseJson.data.cash_flow_id;
   }
 
-  async function putUpdateCashFlow({ id, type, source, label, description, nominal }) {
+  async function putUpdateCashFlow({
+    id,
+    type,
+    source,
+    label,
+    description,
+    nominal,
+  }) {
     const response = await _fetchWithAuth(`${BASE_URL}/cash-flows/${id}`, {
       method: "PUT",
       headers: {
@@ -133,10 +146,10 @@ const api = (() => {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
-    
+
     const contentType = response.headers.get("content-type");
     console.log("Content-Type:", contentType);
     if (!contentType || !contentType.includes("application/json")) {
@@ -163,6 +176,36 @@ const api = (() => {
     return responseJson.data.cash_flow;
   }
 
+  async function getLabels() {
+    const response = await _fetchWithAuth(`${BASE_URL}/cash-flows/labels`, {
+      method: "GET",
+    });
+    const responseJson = await response.json();
+    if (!response.ok) {
+      throw new Error(responseJson.message || "Gagal mengambil labels");
+    }
+
+    return responseJson.data.labels; // Mengembalikan array labels
+  }
+
+  async function getStatsDaily({ end_date, total_data }) {
+    const response = await _fetchWithAuth(
+      `${BASE_URL}/cash-flows/stats/daily?end_date=${end_date}&total_data=${total_data}`,
+      {
+        method: "GET",
+      }
+    );
+
+    const responseJson = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        responseJson.message || "Gagal mengambil statistik harian"
+      );
+    }
+
+    return responseJson.data; // Mengembalikan data statistik harian
+  }
+
   return {
     putAccessToken,
     getAccessToken,
@@ -175,6 +218,8 @@ const api = (() => {
     deleteCashFlow,
     getAllCashFlows,
     getDetailCashFlow,
+    getLabels,
+    getStatsDaily,
   };
 })();
 
