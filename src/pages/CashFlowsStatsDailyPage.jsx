@@ -1,42 +1,77 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { asyncGetStatsDaily } from "../states/cash-flows/action";
+import React, { useState, useEffect } from "react";
+import api from "../utils/api";
+
+function getCurrentDateTime() {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
+}
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(value);
+}
 
 const CashFlowStatsDailyPage = () => {
-  const dispatch = useDispatch();
-
-  const statsDaily = useSelector((state) => state.cashFlow.statsDaily);
-  const [loading, setLoading] = useState(true);
+  const [cashFlowData, setCashFlowData] = useState({
+    inflow: {},
+    outflow: {},
+    total: {},
+  });
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    dispatch(asyncGetStatsDaily()).finally(() => setLoading(false)); // Set loading ke false setelah action selesai
-  }, [dispatch]);
+    const endDate = getCurrentDateTime();
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+    const fetchData = async () => {
+      try {
+        const result = await api.getStatsDaily({ end_date: endDate, total_data: 7 });
 
-  if (!statsDaily || !statsDaily.stats_inflow || !statsDaily.stats_outflow) {
-    return <p>No data available.</p>;
-  }
+        const inflow = {};
+        const outflow = {};
+        const total = {};
+
+        Object.keys(result.stats_inflow).forEach((date) => {
+          inflow[date] = formatCurrency(parseFloat(result.stats_inflow[date]));
+          outflow[date] = formatCurrency(parseFloat(result.stats_outflow[date]));
+          total[date] = formatCurrency(parseFloat(result.stats_inflow[date] - result.stats_outflow[date]));
+        });
+
+        setCashFlowData({
+          inflow,
+          outflow,
+          total,
+        });
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <div>
-      <h1>Cash Flow Stats Daily</h1>
-      <table border="1">
+    <div className="cashflow-stats-container">
+      <h1>Daily Cash Flow Stats</h1>
+      {error ? <p>Error: {error}</p> : null}
+      <table>
         <thead>
           <tr>
             <th>Date</th>
             <th>Inflow</th>
             <th>Outflow</th>
+            <th>Total Cash Flow</th>
           </tr>
         </thead>
         <tbody>
-          {Object.keys(statsDaily.stats_inflow).map((date) => (
+          {Object.keys(cashFlowData.total).map((date) => (
             <tr key={date}>
               <td>{date}</td>
-              <td>{statsDaily.stats_inflow[date]}</td>
-              <td>{statsDaily.stats_outflow[date]}</td>
+              <td>{cashFlowData.inflow[date]}</td>
+              <td>{cashFlowData.outflow[date]}</td>
+              <td>{cashFlowData.total[date]}</td>
             </tr>
           ))}
         </tbody>

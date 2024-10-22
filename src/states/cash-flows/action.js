@@ -157,21 +157,21 @@ function asyncGetLabels() {
   };
 }
 
-function asyncGetStatsDaily() {
+function asyncGetStatsDaily({ end_date, total_data }) {
   return async (dispatch) => {
     dispatch(showLoading());
 
     try {
-      const statsDaily = await api.getStatsDaily(); // Asumsi `api.getStatsDaily` mengambil data statistik harian dari API
-      console.log("Stats Daily fetched from API:", statsDaily); // Log data statistik harian
-      dispatch(getStatsDailyActionCreator(statsDaily)); // Dispatch data statistik harian ke reducer
+      const statsDaily = await api.getStatsDaily({ end_date, total_data });
+      dispatch(getStatsDailyActionCreator(statsDaily));
     } catch (error) {
-      console.error("Error fetching daily stats:", error);
+      showErrorDialog(error.message);
     }
 
     dispatch(hideLoading());
   };
 }
+
 
 export {
   ActionType,

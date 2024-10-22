@@ -195,16 +195,14 @@ const api = (() => {
         method: "GET",
       }
     );
-
+  
     const responseJson = await response.json();
     if (!response.ok) {
-      throw new Error(
-        responseJson.message || "Gagal mengambil statistik harian"
-      );
+      throw new Error(responseJson.message || "Gagal mengambil statistik harian");
     }
-
-    return responseJson.data; // Mengembalikan data statistik harian
-  }
+  
+    return responseJson.data;
+  }  
 
   return {
     putAccessToken,
