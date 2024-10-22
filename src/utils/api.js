@@ -195,16 +195,14 @@ const api = (() => {
         method: "GET",
       }
     );
-
+  
     const responseJson = await response.json();
     if (!response.ok) {
-      throw new Error(
-        responseJson.message || "Gagal mengambil statistik harian"
-      );
+      throw new Error(responseJson.message || "Gagal mengambil statistik harian");
     }
-
-    return responseJson.data; // Mengembalikan data statistik harian
-  }
+  
+    return responseJson.data;
+  }  
 
   async function getStatsMonthly({ end_date, total_data }) {
     const url = new URL(`${BASE_URL}/cash-flows/stats/monthly`);

@@ -3,12 +3,12 @@ import { cashFlowItemShape } from "./CashFlowsItem";
 import { postedAt } from "../utils/tools";
 import { FaClock } from "react-icons/fa6";
 
-function CashFlowDetail({ cashflow }) {
+function CashFlowDetail({ cashFlow }) {
   let badgeStatus, badgeLabel;
-  if (cashflow.type.toLowerCase() === "inflow") {
+  if (cashFlow.type.toLowerCase() === "inflow") {
     badgeStatus = "badge bg-success text-white ms-3";
     badgeLabel = "Inflow";
-  } else if (cashflow.type.toLowerCase() === "outflow") {
+  } else if (cashFlow.type.toLowerCase() === "outflow") {
     badgeStatus = "badge bg-warning text-dark ms-3";
     badgeLabel = "Outflow";
   }
@@ -18,7 +18,7 @@ function CashFlowDetail({ cashflow }) {
       <div className="card-body">
         <div className="row align-items-center">
           <div className="col-12 d-flex">
-            <h5>{cashflow.label}</h5>
+            <h5>{cashFlow.label}</h5>
             <div>
               <span className={badgeStatus}>{badgeLabel}</span>
             </div>
@@ -26,12 +26,12 @@ function CashFlowDetail({ cashflow }) {
           <div className="col-12">
             <div className="text-sm op-5">
               <FaClock />
-              <span className="ps-2">{postedAt(cashflow.created_at)}</span>
+              <span className="ps-2">{postedAt(cashFlow.created_at)}</span>
             </div>
           </div>
           <div className="col-12">
             <hr />
-            {cashflow.description}
+            {cashFlow.description}
           </div>
         </div>
       </div>

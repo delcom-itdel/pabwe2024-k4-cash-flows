@@ -19,7 +19,7 @@ function CashFlowItem({ cashFlow, onDeleteCashFlow }) {
         <div className="row align-items-center">
           <div className="col-8 d-flex">
             <h5>
-              <Link to={`/cashflows/${cashFlow.id}`} className="text-primary">
+              <Link to={`/cash-flows/${cashFlow.id}`} className="text-primary">
                 {cashFlow.label}
               </Link>
             </h5>

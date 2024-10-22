@@ -60,7 +60,7 @@ function statsDailyReducer(
 ) {
   switch (action.type) {
     case ActionType.GET_STATS_DAILY:
-      return action.payload.stats;
+      return action.payload.statsDaily;
     default:
       return statsDaily;
   }
