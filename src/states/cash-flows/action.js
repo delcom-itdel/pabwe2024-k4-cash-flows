@@ -61,6 +61,13 @@ function getStatsDailyActionCreator(statsDaily) {
   };
 }
 
+function getStatsMonthlyActionCreator(statsMonthly) {
+  return {
+    type: ActionType.GET_STATS_MONTHLY,
+    payload: { statsMonthly },
+  };
+}
+
 function asyncGetCashFlows() {
   return async (dispatch) => {
     dispatch(showLoading());
@@ -173,6 +180,21 @@ function asyncGetStatsDaily() {
   };
 }
 
+function asyncGetStatsMonthly({ end_date, total_data }) {
+  return async (dispatch) => {
+    dispatch(showLoading());
+
+    try {
+      const statsMonthly = await api.getStatsMonthly({ end_date, total_data });
+      dispatch(getStatsMonthlyActionCreator(statsMonthly));
+    } catch (error) {
+      showErrorDialog(error.message);
+    }
+
+    dispatch(hideLoading());
+  };
+}
+
 export {
   ActionType,
   getCashFlowsActionCreator,
@@ -189,4 +211,6 @@ export {
   asyncGetLabels,
   getStatsDailyActionCreator,
   asyncGetStatsDaily,
+  getStatsMonthlyActionCreator,
+  asyncGetStatsMonthly,
 };

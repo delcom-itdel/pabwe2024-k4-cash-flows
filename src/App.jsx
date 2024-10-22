@@ -15,6 +15,7 @@ import CashFlowsUpdatePage from "./pages/CashFlowsUpdatePage";
 import CashFlowsDetailPage from "./pages/CashFlowsDetailPage";
 import CashFlowsLabelsPage from "./pages/CashFlowsLabelsPage";
 import CashFlowsStatsDailyPage from "./pages/CashFlowsStatsDailyPage";
+import CashFlowsStatsMonthlyPage from "./pages/CashFLowsStatsMonthlyPage";
 
 function App() {
   const authLogin = useSelector((state) => state.authLogin || null);
@@ -97,6 +98,10 @@ function App() {
             <Route
               path="/cash-flows/stats/daily"
               element={<CashFlowsStatsDailyPage />}
+            />
+            <Route
+              path="/cash-flows/stats/monthly"
+              element={<CashFlowsStatsMonthlyPage />}
             />
           </Routes>
         </main>

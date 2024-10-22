@@ -206,6 +206,26 @@ const api = (() => {
     return responseJson.data; // Mengembalikan data statistik harian
   }
 
+  async function getStatsMonthly({ end_date, total_data }) {
+    const url = new URL(`${BASE_URL}/cash-flows/stats/monthly`);
+    url.searchParams.append("end_date", end_date);
+    url.searchParams.append("total_data", total_data);
+
+    const response = await _fetchWithAuth(url.toString(), {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      const responseJson = await response.json();
+      throw new Error(
+        responseJson.message || "Failed to fetch monthly cash flow stats"
+      );
+    }
+
+    const responseJson = await response.json();
+    return responseJson.data;
+  }
+
   return {
     putAccessToken,
     getAccessToken,
@@ -220,6 +240,7 @@ const api = (() => {
     getDetailCashFlow,
     getLabels,
     getStatsDaily,
+    getStatsMonthly,
   };
 })();
 

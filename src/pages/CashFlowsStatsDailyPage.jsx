@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { asyncGetStatsDaily } from "../states/cash-flows/action";
+import { asyncGetStatsDaily } from "../states/cashFlow/action"; // Pastikan path sudah benar
 
 const CashFlowStatsDailyPage = () => {
   const dispatch = useDispatch();
 
+  // Ambil data `statsDaily` dari Redux store
   const statsDaily = useSelector((state) => state.cashFlow.statsDaily);
   const [loading, setLoading] = useState(true);
 
+  // Ambil data hanya saat komponen pertama kali di-load
   useEffect(() => {
+    // dispatch(showLoading()); // Uncomment jika ada action untuk loading global
     dispatch(asyncGetStatsDaily()).finally(() => setLoading(false)); // Set loading ke false setelah action selesai
+    // dispatch(hideLoading()); // Uncomment jika ada action untuk hide loading global
   }, [dispatch]);
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
+  // Jika tidak ada data, tampilkan pesan kosong
   if (!statsDaily || !statsDaily.stats_inflow || !statsDaily.stats_outflow) {
     return <p>No data available.</p>;
   }

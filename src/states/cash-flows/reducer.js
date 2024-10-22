@@ -66,6 +66,18 @@ function statsDailyReducer(
   }
 }
 
+function statsMonthlyReducer(
+  statsMonthly = { stats_inflow: {}, stats_outflow: {} },
+  action = {}
+) {
+  switch (action.type) {
+    case ActionType.GET_STATS_MONTHLY:
+      return action.payload.statsMonthly;
+    default:
+      return statsMonthly;
+  }
+}
+
 export {
   cashFlowsReducer,
   isAddCashFlowReducer,
@@ -74,4 +86,5 @@ export {
   detailCashFlowReducer,
   labelsReducer,
   statsDailyReducer,
+  statsMonthlyReducer,
 };

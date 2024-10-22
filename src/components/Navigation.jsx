@@ -27,7 +27,15 @@ function Navigation({ authLogin, onAuthSignOut }) {
 
           <div className="collapse navbar-collapse" id="navApp">
             <ul className="navbar-nav ms-auto">
-              <li className="mt-2">
+              <li className="mt-2 ms-2">
+                <Link
+                  className="btn btn-light btn-sm text-dark"
+                  to="/cash-flows/stats/monthly"
+                >
+                  Cash Flow Stats Monthly
+                </Link>
+              </li>
+              <li className="mt-2 ms-2">
                 <Link
                   className="btn btn-light btn-sm text-dark"
                   to="/cash-flows/stats/daily"
