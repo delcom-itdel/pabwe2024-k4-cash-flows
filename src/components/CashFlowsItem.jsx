@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { postedAt } from "../utils/tools";
-import { FaClock, FaTrash } from "react-icons/fa6";
+import { FaClock, FaTrash, FaMoneyBillWave } from "react-icons/fa6";
 
 function CashFlowItem({ cashFlow, onDeleteCashFlow }) {
   let badgeStatus, badgeLabel;
@@ -53,7 +53,22 @@ function CashFlowItem({ cashFlow, onDeleteCashFlow }) {
               <FaTrash /> Hapus
             </button>
           </div>
-          <div className="col-12">
+          {cashFlow.description && (
+            <div className="col-12 mt-2">
+              <div className="text-sm text-muted">
+                <p>{cashFlow.description}</p>
+              </div>
+            </div>
+          )}
+          <div className="col-12 mt-2">
+            <div className="text-sm">
+              <FaMoneyBillWave />
+              <span className="ps-2">
+                Nominal: Rp{cashFlow.nominal.toLocaleString()}
+              </span>
+            </div>
+          </div>
+          <div className="col-12 mt-2">
             <div className="text-sm op-5">
               <FaClock />
               <span className="ps-2">{postedAt(cashFlow.created_at)}</span>

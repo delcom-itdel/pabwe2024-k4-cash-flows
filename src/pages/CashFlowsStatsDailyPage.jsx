@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import api from "../utils/api";
+import "../styles/style.css";
 
 function getCurrentDateTime() {
   const now = new Date();
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(now.getDate()).padStart(2, "0")} ${String(
+    now.getHours()
+  ).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(
+    now.getSeconds()
+  ).padStart(2, "0")}`;
 }
 
 function formatCurrency(value) {
@@ -27,7 +35,10 @@ const CashFlowStatsDailyPage = () => {
 
     const fetchData = async () => {
       try {
-        const result = await api.getStatsDaily({ end_date: endDate, total_data: 7 });
+        const result = await api.getStatsDaily({
+          end_date: endDate,
+          total_data: 7,
+        });
 
         const inflow = {};
         const outflow = {};
@@ -35,8 +46,12 @@ const CashFlowStatsDailyPage = () => {
 
         Object.keys(result.stats_inflow).forEach((date) => {
           inflow[date] = formatCurrency(parseFloat(result.stats_inflow[date]));
-          outflow[date] = formatCurrency(parseFloat(result.stats_outflow[date]));
-          total[date] = formatCurrency(parseFloat(result.stats_inflow[date] - result.stats_outflow[date]));
+          outflow[date] = formatCurrency(
+            parseFloat(result.stats_outflow[date])
+          );
+          total[date] = formatCurrency(
+            parseFloat(result.stats_inflow[date] - result.stats_outflow[date])
+          );
         });
 
         setCashFlowData({
@@ -55,8 +70,8 @@ const CashFlowStatsDailyPage = () => {
   return (
     <div className="cashflow-stats-container">
       <h1>Daily Cash Flow Stats</h1>
-      {error ? <p>Error: {error}</p> : null}
-      <table>
+      {error ? <p className="error-message">Error: {error}</p> : null}
+      <table className="cashflow-table">
         <thead>
           <tr>
             <th>Date</th>
