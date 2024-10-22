@@ -179,7 +179,6 @@ function asyncGetStatsDaily({ end_date, total_data }) {
   };
 }
 
-<<<<<<< HEAD
 function asyncGetStatsMonthly({ end_date, total_data }) {
   return async (dispatch) => {
     dispatch(showLoading());
@@ -194,8 +193,6 @@ function asyncGetStatsMonthly({ end_date, total_data }) {
     dispatch(hideLoading());
   };
 }
-=======
->>>>>>> 3ab96e519501d634f8209502a1a9851201711b64
 
 export {
   ActionType,
