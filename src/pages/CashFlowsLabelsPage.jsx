@@ -35,7 +35,7 @@ function CashFlowLabels() {
           {cashFlows.length > 0 ? (
             cashFlows.map((cashFlow) => (
               <li key={cashFlow.id} className="list-group-item">
-                <Link to={`/cashflows/${cashFlow.id}`}>{cashFlow.label}</Link>
+                <Link to={`/cash-flows/${cashFlow.id}`}>{cashFlow.label}</Link>
               </li>
             ))
           ) : (

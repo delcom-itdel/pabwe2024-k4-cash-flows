@@ -8,7 +8,7 @@ const CashFlowsDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  const cashFlow = useSelector((state) => state.cashFlows.cashFlow);
+  const cashFlow = useSelector((state) => state.detailCashFlow);
 
   useEffect(() => {
     dispatch(asyncDetailCashFlow(id));
