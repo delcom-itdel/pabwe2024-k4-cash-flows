@@ -1,5 +1,6 @@
 const api = (() => {
 	const BASE_URL = "https://public-api.delcom.org/api/v1";
+
 	async function _fetchWithAuth(url, options = {}) {
 		return fetch(url, {
 			...options,
@@ -9,168 +10,170 @@ const api = (() => {
 			},
 		});
 	}
+
 	function putAccessToken(token) {
 		localStorage.setItem("accessToken", token);
 	}
+
 	function getAccessToken() {
 		return localStorage.getItem("accessToken");
 	}
-	// API Auth => https://public-api.delcom.org/docs/1.0/api-auth
+
 	async function postAuthRegister({ name, email, password }) {
 		const response = await fetch(`${BASE_URL}/auth/register`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				name,
-				email,
-				password,
-			}),
+			body: JSON.stringify({ name, email, password }),
 		});
+
 		const responseJson = await response.json();
-		const { success, message } = responseJson;
-		if (success !== true) {
-			throw new Error(message);
+		if (!responseJson.success) {
+			throw new Error(responseJson.message);
 		}
-		return message;
+
+		return responseJson.message;
 	}
+
 	async function postAuthLogin({ email, password }) {
 		const response = await fetch(`${BASE_URL}/auth/login`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				email,
-				password,
-			}),
+			body: JSON.stringify({ email, password }),
 		});
+
 		const responseJson = await response.json();
-		const { success, message } = responseJson;
-		if (success !== true) {
-			throw new Error(message);
+		if (!responseJson.success) {
+			throw new Error(responseJson.message);
 		}
-		const {
-			data: { token },
-		} = responseJson;
-		return token;
+
+		return responseJson.data.token;
 	}
-	// API Users => https://public-api.delcom.org/docs/1.0/apiusers
+
 	async function getMe() {
 		const response = await _fetchWithAuth(`${BASE_URL}/users/me`);
 		const responseJson = await response.json();
-		const { success, message } = responseJson;
-		if (success !== true) {
-			throw new Error(message);
+		if (!responseJson.success) {
+			throw new Error(responseJson.message);
 		}
-		const {
-			data: { user },
-		} = responseJson;
-		return user;
+
+		return responseJson.data.user;
 	}
+
 	async function postChangePhotoProfile({ photoFile }) {
 		const formData = new FormData();
 		formData.append("photo", photoFile);
+
 		const response = await _fetchWithAuth(`${BASE_URL}/users/photo`, {
 			method: "POST",
 			body: formData,
 		});
+
 		const responseJson = await response.json();
-		const { success, message } = responseJson;
-		if (success !== true) {
-			throw new Error(message);
+		if (!responseJson.success) {
+			throw new Error(responseJson.message);
 		}
-		return message;
+
+		return responseJson.message;
 	}
-	// API Cashflow => https://public-api.delcom.org/docs/1.0/cash-flows
-	async function postAddCashFlow({ type, source, label, description, nominal }) {
+
+	async function postAddCashFlow({
+		type,
+		source,
+		label,
+		description,
+		nominal,
+	}) {
 		const response = await _fetchWithAuth(`${BASE_URL}/cash-flows`, {
 			method: "POST",
 			headers: {
-				"Content-Type": "multipart/form-data",
+				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				type,
-				source,
-				label,
-				description,
-				nominal,
-			}),
+			body: JSON.stringify({ type, source, label, description, nominal }),
 		});
+
 		const responseJson = await response.json();
-		const { success, message } = responseJson;
-		if (success !== true) {
-			throw new Error(message);
+		if (!responseJson.success) {
+			throw new Error(responseJson.message);
 		}
-		const {
-			data: { cash_flow_id },
-		} = responseJson;
-		return cash_flow_id;
+
+		return responseJson.data.cash_flow_id;
 	}
-	async function putUpdateCashFlow({ id, type, source, label, description, nominal }) {
+
+	async function putUpdateCashFlow({
+		id,
+		type,
+		source,
+		label,
+		description,
+		nominal,
+	}) {
 		const response = await _fetchWithAuth(`${BASE_URL}/cash-flows/${id}`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				type,
-				source,
-				label,
-				description,
-				nominal,
-			}),
+			body: JSON.stringify({ type, source, label, description, nominal }),
 		});
+
 		const responseJson = await response.json();
-		const { success, message } = responseJson;
-		if (success !== true) {
-			throw new Error(message);
+		if (!responseJson.success) {
+			throw new Error(responseJson.message);
 		}
-		return message;
+
+		return responseJson.message;
 	}
+
 	async function deleteCashFlow(id) {
 		const response = await _fetchWithAuth(`${BASE_URL}/cash-flows/${id}`, {
 			method: "DELETE",
+		});
+
+		const responseJson = await response.json();
+		if (!responseJson.success) {
+			throw new Error(responseJson.message);
+		}
+
+		return responseJson.message;
+	}
+
+	async function getAllCashFlows() {
+		const token = getAccessToken();
+		const response = await _fetchWithAuth(`${BASE_URL}/cash-flows`, {
+			method: "GET",
 			headers: {
+				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
 		});
-		const responseJson = await response.json();
-		const { success, message } = responseJson;
-		if (success !== true) {
-			throw new Error(message);
+
+		const contentType = response.headers.get("content-type");
+		console.log("Content-Type:", contentType);
+		if (!contentType || !contentType.includes("application/json")) {
+			const errorText = await response.text();
+			console.log("Error response:", errorText);
+			throw new Error("Server returned non-JSON response");
 		}
-		return message;
+
+		const responseJson = await response.json();
+		if (!responseJson.success) {
+			throw new Error(responseJson.message);
+		}
+
+		return responseJson.data.cash_flows;
 	}
-	async function getAllCashFlows() {
-    const token = getAccessToken();
-    const response = await fetch(`${BASE_URL}/cash-flows`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    const responseJson = await response.json();
-    if (!response.ok) {
-      throw new Error(
-        responseJson.message || "Gagal mengambil data cash flows"
-      );
-    }
-    return responseJson.data.cash_flows;
-	}
+
 	async function getDetailCashFlow(id) {
 		const response = await _fetchWithAuth(`${BASE_URL}/cash-flows/${id}`);
 		const responseJson = await response.json();
-		const { success, message } = responseJson;
-		if (success !== true) {
-			throw new Error(message);
+		if (!responseJson.success) {
+			throw new Error(responseJson.message);
 		}
-		const {
-			data: { cash_flow },
-		} = responseJson;
-		return cash_flow;
+
+		return responseJson.data.cash_flow;
 	}
 
 	return {
@@ -187,4 +190,5 @@ const api = (() => {
 		getDetailCashFlow,
 	};
 })();
+
 export default api;

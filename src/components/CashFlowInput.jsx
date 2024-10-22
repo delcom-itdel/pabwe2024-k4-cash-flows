@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import Swal from "sweetalert2";
 
 function CashFlowInput({ onAddCashFlow }) {
   const [type, setType] = useState("");

@@ -10,7 +10,7 @@ root.render(
 	<Provider store={store}>
 		<BrowserRouter>
 			<StrictMode>
-				<App />
+				<App Cash Flow/>
 			</StrictMode>
 		</BrowserRouter>
 	</Provider>

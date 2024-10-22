@@ -6,7 +6,6 @@ import {
 } from "../states/cashFlow/action";
 import CashFlowInput from "../components/CashFlowInput";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 
 function CashFlowAddPage() {
   const navigate = useNavigate();

@@ -1,15 +1,15 @@
 import PropTypes from "prop-types";
-import { CashFlowItemShape } from "./CashFlowItem"; // Pastikan CashFlowItemShape didefinisikan
+import { cashFlowItemShape } from "./CashFlowItem";
 import { postedAt } from "../utils/tools";
-import { FaClock } from "react-icons/fa6"; // Pastikan ikon sudah diinstal
+import { FaClock } from "react-icons/fa6";
 
-function CashFlowDetail({ cashFlow }) {
+function CashFlowDetail({ cashflow }) {
   let badgeStatus, badgeLabel;
-  if (cashFlow.type === "inflow") {
+  if (cashflow.type.toLowerCase() === "inflow") {
     badgeStatus = "badge bg-success text-white ms-3";
     badgeLabel = "Inflow";
-  } else {
-    badgeStatus = "badge bg-danger text-white ms-3";
+  } else if (cashflow.type.toLowerCase() === "outflow") {
+    badgeStatus = "badge bg-warning text-dark ms-3";
     badgeLabel = "Outflow";
   }
 
@@ -18,7 +18,7 @@ function CashFlowDetail({ cashFlow }) {
       <div className="card-body">
         <div className="row align-items-center">
           <div className="col-12 d-flex">
-            <h5>{cashFlow.label}</h5>
+            <h5>{cashflow.label}</h5>
             <div>
               <span className={badgeStatus}>{badgeLabel}</span>
             </div>
@@ -26,15 +26,12 @@ function CashFlowDetail({ cashFlow }) {
           <div className="col-12">
             <div className="text-sm op-5">
               <FaClock />
-              <span className="ps-2">{postedAt(cashFlow.created_at)}</span>
+              <span className="ps-2">{postedAt(cashflow.created_at)}</span>
             </div>
           </div>
           <div className="col-12">
             <hr />
-            <p>{cashFlow.description}</p>
-            <p>
-              <strong>Nominal:</strong> Rp {cashFlow.nominal.toLocaleString()}
-            </p>
+            {cashflow.description}
           </div>
         </div>
       </div>
@@ -43,7 +40,7 @@ function CashFlowDetail({ cashFlow }) {
 }
 
 CashFlowDetail.propTypes = {
-  cashFlow: PropTypes.shape(CashFlowItemShape).isRequired, // Pastikan bentuk data cashFlow sesuai dengan CashFlowItemShape
+  cashflow: PropTypes.shape(cashFlowItemShape).isRequired,
 };
 
 export default CashFlowDetail;
