@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { cashFlowItemShape } from "./CashFlowItem";
+import { cashFlowItemShape } from "./CashFlowsItem";
 import { postedAt } from "../utils/tools";
 import { FaClock } from "react-icons/fa6";
 

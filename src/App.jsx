@@ -10,9 +10,9 @@ import RegisterPage from "./pages/RegisterPage";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProfilePage from "./pages/ProfilePage";
-import CashFlowAddPage from "./pages/CashFlowAddPage";
-import CashFlowUpdatePage from "./pages/CashFlowUpdatePage";
-import CashFlowDetailPage from "./pages/CashFlowDetailPage";
+import CashFlowsAddPage from "./pages/CashFlowsAddPage";
+import CashFlowsUpdatePage from "./pages/CashFlowsUpdatePage";
+import CashFlowsDetailPage from "./pages/CashFlowsDetailPage";
 
 function App() {
 	const authLogin = useSelector((state) => state.authLogin || null);
@@ -52,10 +52,7 @@ function App() {
 								</Link>
 							</li>
 							<li className="nav-item w-50 textcenter">
-								<Link
-									className={`nav-link ${activeRegister} btl`}
-									to="/register"
-								>
+								<Link className={`nav-link ${activeRegister} btl`} to="/register">
 									Register
 								</Link>
 							</li>
@@ -82,12 +79,9 @@ function App() {
 						<Route path="/*" element={<NotFoundPage />} />
 						<Route path="/" element={<HomePage />} />
 						<Route path="/users/me" element={<ProfilePage />} />
-						<Route path="/cash-flows/:id" element={<CashFlowDetailPage />} />
-						<Route
-							path="/cash-flows/:id/edit"
-							element={<CashFlowUpdatePage />}
-						/>
-						<Route path="/cash-flows/add" element={<CashFlowAddPage />} />
+						<Route path="/cash-flows/:id" element={<CashFlowsDetailPage />} />
+						<Route path="/cash-flows/:id/edit" element={<CashFlowsUpdatePage />} />
+						<Route path="/cash-flows/add" element={<CashFlowsAddPage />} />
 					</Routes>
 				</main>
 			</div>

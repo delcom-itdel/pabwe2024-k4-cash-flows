@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import CashFlowList from "../components/CashFlowList";
+import CashFlowList from "../components/CashFlowsList";
 import {
 	asyncGetCashFlows,
 	asyncDeleteCashFlow,
 	deleteCashFlowActionCreator,
-} from "../states/cashFlow/action";
+} from "../states/cash-flows/action";
 
 function HomePage() {
 	const { cashFlows = [], isDeleteCashFlow = false } = useSelector(
