@@ -10,10 +10,10 @@ import { useNavigate } from "react-router-dom";
 function CashFlowAddPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isAddCashFlowSuccess = false } = useSelector((state) => state);
+  const { isAddCashFlow = false } = useSelector((state) => state);
 
   useEffect(() => {
-    if (isAddCashFlowSuccess) {
+    if (isAddCashFlow) {
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -24,7 +24,7 @@ function CashFlowAddPage() {
       navigate("/");
       dispatch(addCashFlowActionCreator(false));
     }
-  }, [isAddCashFlowSuccess, navigate, dispatch]);
+  }, [isAddCashFlow, navigate, dispatch]);
 
   const onAddCashFlow = (data) => {
     dispatch(asyncAddCashFlow(data));
@@ -33,7 +33,6 @@ function CashFlowAddPage() {
   return (
     <section>
       <div className="container pt-1">
-        <h3>Tambah Cash Flow</h3>
         <CashFlowInput onAddCashFlow={onAddCashFlow} />
       </div>
     </section>

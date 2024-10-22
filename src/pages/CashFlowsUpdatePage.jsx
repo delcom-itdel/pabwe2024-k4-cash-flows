@@ -2,140 +2,159 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  asyncDetailCashFlow,
-  asyncUpdateCashFlow,
-  updateCashFlowActionCreator,
+	asyncDetailCashFlow,
+	asyncUpdateCashFlow,
+	updateCashFlowActionCreator,
 } from "../states/cash-flows/action";
 
 const CashFlowsUpdatePage = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+	const { id } = useParams();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const cashFlow = useSelector((state) => state.detailCashFlow);
+	const isUpdateCashFlow = useSelector(
+		(state) => state.cashFlows.isUpdateCashFlow
+	);
+	const [type, setType] = useState("");
+	const [source, setSource] = useState("");
+	const [label, setLabel] = useState("");
+	const [description, setDescription] = useState("");
+	const [nominal, setNominal] = useState(0);
 
-  const cashFlow = useSelector((state) => state.cashFlows.cashFlow);
-  const isUpdateCashFlow = useSelector((state) => state.cashFlows.isUpdateCashFlow);
+	useEffect(() => {
+		dispatch(asyncDetailCashFlow(id));
+	}, [dispatch, id]);
 
-  const [formData, setFormData] = useState({
-    type: "",
-    source: "",
-    label: "",
-    description: "",
-    nominal: 0,
-  });
+	useEffect(() => {
+		if (cashFlow) {
+			setType(cashFlow.type);
+			setSource(cashFlow.source);
+			setLabel(cashFlow.label);
+			setDescription(cashFlow.description);
+			setNominal(cashFlow.nominal);
+		}
+	}, [cashFlow]);
 
-  useEffect(() => {
-    dispatch(asyncDetailCashFlow(id));
-  }, [dispatch, id]);
+	useEffect(() => {
+		if (isUpdateCashFlow) {
+			navigate(`/cash-flows/${id}`);
+			dispatch(updateCashFlowActionCreator(false));
+		}
+	}, [isUpdateCashFlow, navigate, id, dispatch]);
 
-  useEffect(() => {
-    if (cashFlow) {
-      setFormData({
-        type: cashFlow.type,
-        source: cashFlow.source,
-        label: cashFlow.label,
-        description: cashFlow.description,
-        nominal: cashFlow.nominal,
-      });
-    }
-  }, [cashFlow]);
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		Swal.fire({
+			position: "top-end",
+			icon: "success",
+			title: "Cash flow berhasil di-updat!",
+			showConfirmButton: false,
+			timer: 700,
+		});
+		navigate("/");
+		dispatch(
+			asyncUpdateCashFlow({ id, type, source, label, description, nominal })
+		);
+	};
 
-  useEffect(() => {
-    if (isUpdateCashFlow) {
-      navigate(`/cashflows/${id}`);
-      dispatch(updateCashFlowActionCreator(false));
-    }
-  }, [isUpdateCashFlow, navigate, id, dispatch]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(asyncUpdateCashFlow({ id, ...formData }));
-  };
-
-  return (
-    <div className="container" style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Edit Cash Flow</h1>
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-        <div>
-          <label htmlFor="type" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-            Type:
-          </label>
-          <input
-            type="text"
-            id="type"
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc" }}
-          />
-        </div>
-        <div>
-          <label htmlFor="source" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-            Source:
-          </label>
-          <input
-            type="text"
-            id="source"
-            name="source"
-            value={formData.source}
-            onChange={handleChange}
-            style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc" }}
-          />
-        </div>
-        <div>
-          <label htmlFor="label" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-            Label:
-          </label>
-          <input
-            type="text"
-            id="label"
-            name="label"
-            value={formData.label}
-            onChange={handleChange}
-            style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc" }}
-          />
-        </div>
-        <div>
-          <label htmlFor="description" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-            Description:
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc" }}
-          />
-        </div>
-        <div>
-          <label htmlFor="nominal" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-            Nominal:
-          </label>
-          <input
-            type="number"
-            id="nominal"
-            name="nominal"
-            value={formData.nominal}
-            onChange={handleChange}
-            style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc" }}
-          />
-        </div>
-        <button
-          type="submit"
-          style={{ padding: "10px 20px", backgroundColor: "#007bff", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}
-        >
-          Update Cash Flow
-        </button>
-      </form>
-    </div>
-  );
+	return (
+		<div
+			className="container"
+			style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}
+		>
+			<div className="card-body">
+				<h1 style={{ textAlign: "center", marginBottom: "20px" }}>
+					Edit Cash Flow
+				</h1>
+				<form
+					onSubmit={handleSubmit}
+					style={{ display: "flex", flexDirection: "column", gap: "15px" }}
+				>
+					<div className="mb-3">
+						<label htmlFor="inputType" className="form-label">
+							Tipe
+						</label>
+						<select
+							id="inputType"
+							className="form-select"
+							value={type}
+							onChange={(e) => setType(e.target.value)}
+							required
+						>
+							<option value="">Pilih Tipe</option>
+							<option value="inflow">Inflow</option>
+							<option value="outflow">Outflow</option>
+						</select>
+					</div>
+					<div className="mb-3">
+						<label htmlFor="inputSource" className="form-label">
+							Sumber
+						</label>
+						<select
+							id="inputSource"
+							className="form-select"
+							value={source}
+							onChange={(e) => setSource(e.target.value)}
+							required
+						>
+							<option value="">Pilih Sumber</option>
+							<option value="cash">Cash</option>
+							<option value="savings">Savings</option>
+							<option value="loans">Loans</option>
+						</select>
+					</div>
+					<div className="mb-3">
+						<label htmlFor="inputLabel" className="form-label">
+							Label
+						</label>
+						<div className="input-group">
+							<input
+								type="text"
+								id="inputLabel"
+								value={label}
+								onChange={(e) => setLabel(e.target.value)}
+								className="form-control"
+								required
+							/>
+							<span className="input-group-text">{label.length}/50</span>
+						</div>
+					</div>
+					<div className="mb-3">
+						<label htmlFor="inputNominal" className="form-label">
+							Nominal
+						</label>
+						<input
+							type="number"
+							id="inputNominal"
+							value={nominal}
+							onChange={(e) => setNominal(e.target.value)}
+							className="form-control"
+							required
+						/>
+					</div>
+					<div>
+						<label htmlFor="inputDescription" className="form-label">
+							Deskripsi
+						</label>
+						<textarea
+							rows="5"
+							id="inputDescription"
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+							className="form-control"
+							required
+						></textarea>
+						<div className="text-end">
+							<span>{description.length}/1000</span>
+						</div>
+					</div>
+					<button type="submit" className="btn btn-primary mt-3">
+						Update Cash Flow
+					</button>
+				</form>
+			</div>
+		</div>
+	);
 };
 
 export default CashFlowsUpdatePage;
