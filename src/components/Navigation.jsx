@@ -1,13 +1,6 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import {
-  FaPlus,
-  FaUser,
-  FaRightFromBracket,
-  FaTags,
-  FaClock,
-  FaChartBar,
-} from "react-icons/fa6";
+import { FaPlus, FaUser, FaRightFromBracket } from "react-icons/fa6";
 
 function Navigation({ authLogin, onAuthSignOut }) {
   const { id, name, photo } = authLogin;
@@ -39,8 +32,6 @@ function Navigation({ authLogin, onAuthSignOut }) {
                   className="btn btn-light btn-sm text-dark"
                   to="/cash-flows/stats/monthly"
                 >
-                  <FaChartBar className="me-1" />{" "}
-                  {/* Spasi antara ikon dan teks */}
                   Cash Flow Stats Monthly
                 </Link>
               </li>
@@ -49,8 +40,6 @@ function Navigation({ authLogin, onAuthSignOut }) {
                   className="btn btn-light btn-sm text-dark"
                   to="/cash-flows/stats/daily"
                 >
-                  <FaClock className="me-1" />{" "}
-                  {/* Spasi antara ikon dan teks */}
                   Cash Flow Stats Daily
                 </Link>
               </li>
@@ -59,7 +48,6 @@ function Navigation({ authLogin, onAuthSignOut }) {
                   className="btn btn-light btn-sm text-dark"
                   to="/cash-flows/labels"
                 >
-                  <FaTags className="me-1" /> {/* Spasi antara ikon dan teks */}
                   Cash Flow Labels
                 </Link>
               </li>
@@ -68,8 +56,7 @@ function Navigation({ authLogin, onAuthSignOut }) {
                   className="btn btn-light btn-sm text-dark"
                   to="/cash-flows/add"
                 >
-                  <FaPlus className="me-1" /> {/* Spasi antara ikon dan teks */}
-                  Create Cash Flow
+                  <FaPlus /> Create Cash Flow
                 </Link>
               </li>
               <li className="nav-item dropdown">
@@ -99,9 +86,7 @@ function Navigation({ authLogin, onAuthSignOut }) {
                 >
                   <li>
                     <Link className="dropdown-item" to="/users/me">
-                      <FaUser className="me-1" />{" "}
-                      {/* Spasi antara ikon dan teks */}
-                      Profile
+                      <FaUser /> Profile
                     </Link>
                   </li>
                   <li>
@@ -110,8 +95,7 @@ function Navigation({ authLogin, onAuthSignOut }) {
                       className="dropdown-item"
                       onClick={onAuthSignOut}
                     >
-                      <FaRightFromBracket className="me-1" />{" "}
-                      {/* Spasi antara ikon dan teks */}
+                      <FaRightFromBracket />
                       Sign out
                     </button>
                   </li>
