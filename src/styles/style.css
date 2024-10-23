@@ -1,141 +1,142 @@
 body {
-  background-image: url('/BackGroundMoney.jpg');
-  background-repeat: repeat;
-  background-size: auto;
-  background-position: left;
-  min-height: 100vh;
-  margin-bottom: 50px;
+	background-image: url("/BackGroundMoney.jpg"), url("/BackGroundMoney.jpg"),
+		url("/BackGroundMoney.jpg");
+	background-repeat: repeat, repeat, repeat; /* Makes each layer repeat */
+	background-size: 200px, 300px, 400px; /* Different sizes for each layer */
+	background-position: 0 0, 50px 100px, -100px -50px; /* Slightly offset each layer for randomness */
+	min-height: 100vh; /* Ensures it covers the full viewport height */
+	background-attachment: fixed; /* Keep the background fixed while scrolling */
 }
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 .w-300px {
-  width: 376px;
+	width: 376px;
 }
 .nav-item {
-  display: table-cell;
+	display: table-cell;
 }
 .nav-profile {
-  border-radius: 50%;
-  width: 36px;
+	border-radius: 50%;
+	width: 36px;
 }
 .margin-main {
-  margin-top: 80px;
+	margin-top: 80px;
 }
 .loading {
-  position: relative;
-  overflow: hidden !important;
-  width: 100vw;
-  height: 100vh;
-  background-color: #e8e8e8;
+	position: relative;
+	overflow: hidden !important;
+	width: 100vw;
+	height: 100vh;
+	background-color: #e8e8e8;
 }
 .loader {
-  position: absolute;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
-  top: 40px;
-  width: 96px;
-  aspect-ratio: 1;
-  display: flex;
-  color: #000;
-  border: 4px solid;
-  box-sizing: border-box;
-  border-radius: 50%;
-  background: radial-gradient(circle 5px, currentColor 95%, #0000),
-    linear-gradient(currentColor 50%, #0000 0) 50%/4px 60% norepeat;
-  animation: l1 2s infinite linear;
+	position: absolute;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	top: 40px;
+	width: 96px;
+	aspect-ratio: 1;
+	display: flex;
+	color: #000;
+	border: 4px solid;
+	box-sizing: border-box;
+	border-radius: 50%;
+	background: radial-gradient(circle 5px, currentColor 95%, #0000),
+		linear-gradient(currentColor 50%, #0000 0) 50%/4px 60% norepeat;
+	animation: l1 2s infinite linear;
 }
 .loader:before {
-  content: "";
-  flex: 1;
-  background: linear-gradient(currentColor 50%, #0000 0) 50%/4px 80% no-repeat;
-  animation: inherit;
+	content: "";
+	flex: 1;
+	background: linear-gradient(currentColor 50%, #0000 0) 50%/4px 80% no-repeat;
+	animation: inherit;
 }
 @keyframes l1 {
-  100% {
-    transform: rotate(1turn);
-  }
+	100% {
+		transform: rotate(1turn);
+	}
 }
 
 /* style untuk cashflow labels */
 .cashflow-item {
-  border: 2px solid #00b4d8; /* Border berwarna biru cerah */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Shadow untuk efek kedalaman */
+	border: 2px solid #00b4d8; /* Border berwarna biru cerah */
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Shadow untuk efek kedalaman */
 }
 
 /* Efek hover pada setiap item */
 .cashflow-item:hover {
-  background: linear-gradient(135deg, #00b4d8, #48cae4); /* Warna gradient */
-  color: white; /* Ubah teks menjadi putih pada hover */
-  transform: scale(1.05); /* Animasi skala */
-  border-color: #48cae4; /* Ubah warna border saat hover */
+	background: linear-gradient(135deg, #00b4d8, #48cae4); /* Warna gradient */
+	color: white; /* Ubah teks menjadi putih pada hover */
+	transform: scale(1.05); /* Animasi skala */
+	border-color: #48cae4; /* Ubah warna border saat hover */
 }
 
 /* Teks link berubah menjadi putih saat hover */
 .cashflow-item:hover a {
-  color: white !important;
+	color: white !important;
 }
 
 /* style untuk cashflow daily dan monthly */
 .cashflow-stats-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #00b4d8;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #f8f9fa;
+	max-width: 800px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid #00b4d8;
+	border-radius: 10px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	background-color: #f8f9fa;
 }
 
 h1 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 20px;
+	text-align: center;
+	color: #333;
+	margin-bottom: 20px;
 }
 
 .error-message {
-  color: red;
-  text-align: center;
-  margin-bottom: 10px;
+	color: red;
+	text-align: center;
+	margin-bottom: 10px;
 }
 
 .cashflow-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
 }
 
 .cashflow-table th,
 .cashflow-table td {
-  padding: 12px;
-  text-align: center;
-  border-bottom: 1px solid #dee2e6;
+	padding: 12px;
+	text-align: center;
+	border-bottom: 1px solid #dee2e6;
 }
 
 .cashflow-table th {
-  background-color: #00b4d8;
-  color: white;
+	background-color: #00b4d8;
+	color: white;
 }
 
 .cashflow-table tr:nth-child(even) {
-  background-color: #f2f2f2;
+	background-color: #f2f2f2;
 }
 
 .cashflow-table tr:hover {
-  background-color: #e9f5fb;
+	background-color: #e9f5fb;
 }
 
 /* style untuk detail page */
 .card:hover {
-  transform: translateY(-10px); /* Moves the card up */
+	transform: translateY(-10px); /* Moves the card up */
 }
 
 .container:hover {
-  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3);
+	box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .btn:hover {
-  background-color: #0056b3; /* Darken button on hover */
-  transform: translateY(-2px); /* Moves the button up slightly */
+	background-color: #0056b3; /* Darken button on hover */
+	transform: translateY(-2px); /* Moves the button up slightly */
 }

@@ -6,7 +6,6 @@ import {
   asyncDeleteCashFlow,
   deleteCashFlowActionCreator,
 } from "../states/cash-flows/action";
-import "../styles/style.css";
 
 function HomePage() {
   const { cashFlows = [], isDeleteCashFlow = false } = useSelector(
