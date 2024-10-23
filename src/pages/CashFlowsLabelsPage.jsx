@@ -48,7 +48,7 @@ function CashFlowLabels() {
                 >
                   {/* Gunakan Link untuk navigasi ke halaman detail */}
                   <Link
-                    to={`/cashflows/${cashFlow.id}`}
+                    to={`/cash-flows/${cashFlow.id}`}
                     className="text-black text-decoration-none"
                     style={{ fontSize: "18px", fontWeight: "bold" }}
                   >
