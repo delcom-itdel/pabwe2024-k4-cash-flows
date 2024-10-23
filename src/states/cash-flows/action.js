@@ -10,6 +10,7 @@ const ActionType = {
   DETAIL_CASHFLOW: "DETAIL_CASHFLOW",
   GET_LABELS: "GET_LABELS",
   GET_STATS_DAILY: "GET_STATS_DAILY",
+  GET_STATS_MONTHLY: "GET_STATS_MONTHLY",
 };
 
 function getCashFlowsActionCreator(cashFlows) {
