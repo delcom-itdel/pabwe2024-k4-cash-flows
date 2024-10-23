@@ -1,11 +1,6 @@
 body {
-  background-image: url("/BackGroundMoney.jpg"), url("/BackGroundMoney.jpg"),
-    url("/BackGroundMoney.jpg");
-  background-repeat: repeat, repeat, repeat; /* Makes each layer repeat */
-  background-size: 200px, 300px, 400px; /* Different sizes for each layer */
-  background-position: 0 0, 50px 100px, -100px -50px; /* Slightly offset each layer for randomness */
-  min-height: 100vh; /* Ensures it covers the full viewport height */
-  background-attachment: fixed; /* Keep the background fixed while scrolling */
+  background-color: #e8e8e8;
+  margin-bottom: 50px;
 }
 a {
   text-decoration: none;
@@ -15,6 +10,7 @@ a {
 }
 .nav-item {
   display: table-cell;
+  background: #0d6efd2e;
 }
 .nav-profile {
   border-radius: 50%;
